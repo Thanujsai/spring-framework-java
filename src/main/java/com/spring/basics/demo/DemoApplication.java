@@ -7,11 +7,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoApplication {
 
 	public static void main(String[] args) {
+		
+		//what are the beans? -> beans are objects that are managed by spring framework
+		//what are the dependencies of a bean? -> @autowired components are beans
+		//where to search for beans?
 		System.out.println("application start");
 		SpringApplication.run(DemoApplication.class, args);
 				
-		BubbleSortAlgorithm bubbleSortAlgorithm = new BubbleSortAlgorithm();//this is where im changing the algo not in the binary search impl => more flexible => loosely coupled
-		BinarySearchImpl binarySearch = new BinarySearchImpl(bubbleSortAlgorithm);
+		BinarySearchImpl binarySearch = new BinarySearchImpl(new QuickSortAlgorithm());//this is where im changing the algo not in the binary search impl => more flexible => loosely coupled
 		
 		int[] arr = new int[]{1,3,5,4,2};
 		System.out.println(binarySearch.binarySearch(arr, 3));
