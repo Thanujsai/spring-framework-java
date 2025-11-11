@@ -1,0 +1,14 @@
+Classes annotated with @Component are recognized by Spring as beans, meaning Spring creates and manages their lifecycle inside the ApplicationContext.
+
+When the application starts (SpringApplication.run(...)), Spring performs a component scan and detects all such annotated classes.
+
+In your case, BubbleSortAlgorithm and BinarySearchImpl are both components, so Spring creates beans for them.
+
+The BinarySearchImpl class has a dependency on SortAlgorithm, marked with @Autowired.
+This tells Spring to automatically inject a bean that implements the SortAlgorithm interface.
+
+Since only BubbleSortAlgorithm has the @Component annotation (and not QuickSortAlgorithm), Spring finds just one matching bean and injects it.
+
+When you call applicationContext.getBean(BinarySearchImpl.class), Spring doesn’t create a new object — it returns the already constructed bean, whose dependencies were injected earlier during startup.
+
+Therefore, the sortAlgorithm field in BinarySearchImpl refers to the BubbleSortAlgorithm bean, and when the binary search runs, it uses that algorithm to sort the array.
