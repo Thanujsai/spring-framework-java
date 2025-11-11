@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
 import org.springframework.stereotype.Component;
 
-@Component //this is to tell spring that this class is a Bean, beans are managed by spring framework
+@Component //this is to tell spring that this class is a Bean, beans are objects that are managed by spring framework
 public class BinarySearchImpl {
   //sorting an array
   //search the array
@@ -15,6 +15,7 @@ public class BinarySearchImpl {
   private SortAlgorithm sortAlgorithm;//this is a dependency of BSI
   //BSI is depended on sortAlgorithm
 
+  //autowiring happens via this constructor
   public BinarySearchImpl(SortAlgorithm sortAlgorithm) {//constructor used for the user to use their own algo => loosely coupled
     this.sortAlgorithm = sortAlgorithm;
   }
