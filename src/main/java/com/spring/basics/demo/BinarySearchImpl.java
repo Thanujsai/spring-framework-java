@@ -1,30 +1,45 @@
 package com.spring.basics.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Sort;
 import org.springframework.stereotype.Component;
 
-@Component //this is to tell spring that this class is a Bean, beans are objects that are managed by spring framework
+@Component 
+// this is to tell Spring that this class is a Bean
+// Beans are objects that are managed by the Spring framework
 public class BinarySearchImpl {
-  //sorting an array
-  //search the array
-  //return the result
+
+  // sorting an array
+  // search the array
+  // return the result
+
+  // autowiring is the process where Spring identifies the dependencies,
+  // finds the matching beans, and automatically populates them.
+  @Autowired // to tell Spring that sortAlgorithm is a dependency
+  private SortAlgorithm sortAlgorithm; 
+  // this is a dependency of BinarySearchImpl
+  // BinarySearchImpl depends on SortAlgorithm
   
-  //autowiring is the process where spring identifies the dependencies, identifies the matches for dependencies and populates them
-  @Autowired//to tell spring that sortAlgorithm is a dependency
-  private SortAlgorithm sortAlgorithm;//this is a dependency of BSI
-  //BSI is depended on sortAlgorithm
+  // Note: Spring automatically injects an instance of SortAlgorithm here.
+  // When the application starts, Spring looks for a Bean that implements
+  // the SortAlgorithm interface (e.g., BubbleSortAlgorithm or QuickSortAlgorithm)
+  // and assigns it to this variable.
 
-  //autowiring happens via this constructor
-  public BinarySearchImpl(SortAlgorithm sortAlgorithm) {//constructor used for the user to use their own algo => loosely coupled
-    this.sortAlgorithm = sortAlgorithm;
-  }
+  // constructor or setter injection can also be used for injecting dependencies,
+  // but it's more common to use field injection with @Autowired.
+  // This avoids writing boilerplate code for constructors or setters.
 
-  public int binarySearch(int[] arr, int num){
-    
-//    BubbleSortAlgorithm bubbleSortAlgorithm = new BubbleSortAlgorithm();
-//    int[] sortedArr = bubbleSortAlgorithm.sort(arr);    //in order to change the algo to say quicksort i need to come to this method and change it -> not practical -> tightly coupled
-    int[] sortedArr = sortAlgorithm.sort(arr);//loosely coupled, user can choose their own algo
+  public int binarySearch(int[] arr, int num) {
+
+    // BubbleSortAlgorithm bubbleSortAlgorithm = new BubbleSortAlgorithm();
+    // int[] sortedArr = bubbleSortAlgorithm.sort(arr);
+    // → This approach is tightly coupled because if we want to use a different 
+    // algorithm (like QuickSort), we would need to modify this code directly.
+    // → Not practical.
+
+    // The below approach is loosely coupled, because the user (or Spring)
+    // can choose which sorting algorithm Bean to inject.
+    int[] sortedArr = sortAlgorithm.sort(arr);
+
     System.out.println(sortAlgorithm);
     System.out.println(sortAlgorithm);
     return 3;
