@@ -1,6 +1,7 @@
 package com.spring.basics.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component 
@@ -15,7 +16,8 @@ public class BinarySearchImpl {
   // autowiring is the process where Spring identifies the dependencies,
   // finds the matching beans, and automatically populates them.
   @Autowired // to tell Spring that sortAlgorithm is a dependency
-  private SortAlgorithm sortAlgorithm; 
+  @Qualifier("bubble") // to specify which bean to inject when multiple beans of the same type exist
+  private SortAlgorithm sortAlgorithm; //if we dont have any primary dependency then we can name the variable same as the class name, with this the class will be injected(say SortAlgorithm bubbleSortAlgorithm)
   // this is a dependency of BinarySearchImpl
   // BinarySearchImpl depends on SortAlgorithm
   
