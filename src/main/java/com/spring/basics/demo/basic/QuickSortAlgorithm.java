@@ -1,12 +1,14 @@
-package com.spring.basics.demo;
+package com.spring.basics.demo.basic;
 
-import org.springframework.context.annotation.Primary;
+import com.spring.basics.demo.basic.SortAlgorithm;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 //earlier only bubble sort had this @Component, now both have it, so now we have 2 beans of same type, to avoid this we can use @Primary on one of them
 @Component
-@Primary
-public class QuickSortAlgorithm implements SortAlgorithm{
+//@Primary
+@Qualifier("quick") // to give a specific name to this bean
+public class QuickSortAlgorithm implements SortAlgorithm {
 
   public int[] sort(int[] numbers){
     //login for bubble sort

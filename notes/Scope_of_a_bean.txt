@@ -1,0 +1,18 @@
+------- BEAN SCOPE ----
+
+singleton beans - one instance per spring context
+
+		BinarySearchImpl binarySearch = applicationContext.getBean(BinarySearchImpl.class);
+THe above returns the same object no matter how many times you call the getBean method
+    BinarySearchImpl binarySearch2 = applicationContext.getBean(BinarySearchImpl.class);
+    
+    System.out.println(binarySearch);
+    System.out.println(binarySearch2);
+    
+    //both the print statements will show the same object reference in the console
+    
+    the above is default
+    
+Prototype beans - new bean whenever requested
+request beans - one bean per http request
+session beans - one bean per http session
