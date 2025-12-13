@@ -1,5 +1,9 @@
 package com.spring.basics.demo.basic;
 
+import javax.annotation.PreDestroy;
+import org.slf4j.Logger;
+import javax.annotation.PostConstruct;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -9,8 +13,10 @@ import org.springframework.stereotype.Component;
 @Component 
 // this is to tell Spring that this class is a Bean
 // Beans are objects that are managed by the Spring framework
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)//new bean whenever requested
+//@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)//new bean whenever requested
 public class BinarySearchImpl {
+  
+  private Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
 
   // sorting an array
   // search the array
@@ -49,5 +55,16 @@ public class BinarySearchImpl {
     System.out.println(sortAlgorithm);
     return 3;
   }
+  
+  @PostConstruct // method to be executed after the bean's construction and dependency injection
+  public void postConstruct() {
+    logger.info("Post Construct method called for " + this);
+  }
+  
+  @PreDestroy // method to be executed before the bean is destroyed
+  public void preDestroy() {
+    logger.info("Pre Destroy method called for " + this);
+  }
 
+//  @PreDestroy is called automatically only for singleton beans. For prototype beans, Spring creates the bean but does not manage its destruction, so @PreDestroy is not invoked unless handled manually.`
 }
