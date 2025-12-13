@@ -1,9 +1,13 @@
 package com.spring.basics.demo.scope;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 @Component
+//@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE) //to make a bean prototype scoped, new instance created every time requested
 public class PersonDAO {
   
   @Autowired
