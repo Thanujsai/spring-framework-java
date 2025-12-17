@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <!--
+      Bean definition for XmlJdbcConnection
+      - Spring creates ONE instance (singleton by default)
+      - Constructor is called during ApplicationContext initialization
+      - The instance is stored in the ApplicationContext
+  -->
+  <bean id="xmlJdbcConnection"
+        class="com.spring.basics.demo.xml.XmlJdbcConnection" />
+  
+  <bean id ="jdbcConnection"
+    class="com.spring.basics.demo.scope.JdbcConnection"/>
+
+
+  <!--
+      Bean definition for XmlPersonDAO
+      - Spring creates an instance of XmlPersonDAO
+      - Sees the <property> tag
+      - Looks for setXmlJdbcConnection(...)
+      - Injects the bean with id "xmlJdbcConnection"
+      - This is SETTER-BASED DEPENDENCY INJECTION
+      - Functionally similar to @Autowired on a setter/field
+  -->
+  <bean id="xmlPersonDAO"
+        class="com.spring.basics.demo.xml.XmlPersonDAO">
+
+    <!--
+        Setter-based Dependency Injection
+        Equivalent to:
+        @Autowired
+        private XmlJdbcConnection xmlJdbcConnection;
+    -->
+    <property name="xmlJdbcConnection"
+              ref="xmlJdbcConnection"/>
+    
+    <property name="jdbcConnection"
+              ref="jdbcConnection"/>
+    
+<!--      Spring creates XmlPersonDAO and injects its dependencies
+  by calling the corresponding setter methods with managed beans
+   The below is what spring does with the above property tags
+     XmlPersonDAO dao = new XmlPersonDAO();
+    dao.setXmlJdbcConnection(applicationContext.getBean("xmlJdbcConnection"));
+    dao.setJdbcConnection(applicationContext.getBean("jdbcConnection"));-->
+
+  </bean>
+
+
+
+  <!--
+      Conceptual equivalent Java code (what Spring does internally):
+
+      XmlJdbcConnection conn = new XmlJdbcConnection();
+      XmlPersonDAO dao = new XmlPersonDAO();
+      dao.setXmlJdbcConnection(conn);
+  -->
+
+  <!-- more bean definitions go here -->
+
+</beans>
