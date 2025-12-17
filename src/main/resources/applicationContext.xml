@@ -1,66 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Root Spring configuration file.
+  Defines beans and wiring instructions for the Spring IoC container.
+-->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="
            http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd">
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
 
   <!--
-      Bean definition for XmlJdbcConnection
-      - Spring creates ONE instance (singleton by default)
-      - Constructor is called during ApplicationContext initialization
-      - The instance is stored in the ApplicationContext
+    Enables component scanning.
+    Spring will scan the given base package and automatically register
+    classes annotated with @Component, @Service, @Repository, @Controller, etc.
+  -->
+  <context:component-scan base-package="com.spring.basics"/>
+
+  <!-- ========================================================= -->
+  <!-- Infrastructure / Dependency Beans                         -->
+  <!-- ========================================================= -->
+
+  <!--
+    Defines XmlJdbcConnection as a Spring-managed bean.
+    - Scope: singleton (default)
+    - Created during ApplicationContext initialization
+    - One shared instance is stored in the container
   -->
   <bean id="xmlJdbcConnection"
-        class="com.spring.basics.demo.xml.XmlJdbcConnection" />
-  
-  <bean id ="jdbcConnection"
-    class="com.spring.basics.demo.scope.JdbcConnection"/>
-
+        class="com.spring.basics.demo.xml.XmlJdbcConnection"/>
 
   <!--
-      Bean definition for XmlPersonDAO
-      - Spring creates an instance of XmlPersonDAO
-      - Sees the <property> tag
-      - Looks for setXmlJdbcConnection(...)
-      - Injects the bean with id "xmlJdbcConnection"
-      - This is SETTER-BASED DEPENDENCY INJECTION
-      - Functionally similar to @Autowired on a setter/field
+    Defines JdbcConnection as a Spring-managed bean.
+    This bean will be injected wherever it is referenced.
+  -->
+  <bean id="jdbcConnection"
+        class="com.spring.basics.demo.scope.JdbcConnection"/>
+
+  <!-- ========================================================= -->
+  <!-- DAO Bean with Setter-Based Dependency Injection            -->
+  <!-- ========================================================= -->
+
+  <!--
+    Defines XmlPersonDAO bean.
+    XmlPersonDAO depends on:
+      - XmlJdbcConnection
+      - JdbcConnection
+
+    Spring will:
+      1. Create XmlPersonDAO using the default constructor
+      2. Inject required dependencies via setter methods
   -->
   <bean id="xmlPersonDAO"
         class="com.spring.basics.demo.xml.XmlPersonDAO">
 
     <!--
-        Setter-based Dependency Injection
-        Equivalent to:
-        @Autowired
-        private XmlJdbcConnection xmlJdbcConnection;
-    -->
-    <property name="xmlJdbcConnection"
-              ref="xmlJdbcConnection"/>
-    
-    <property name="jdbcConnection"
-              ref="jdbcConnection"/>
-    
-<!--      Spring creates XmlPersonDAO and injects its dependencies
-  by calling the corresponding setter methods with managed beans
-   The below is what spring does with the above property tags
-     XmlPersonDAO dao = new XmlPersonDAO();
-    dao.setXmlJdbcConnection(applicationContext.getBean("xmlJdbcConnection"));
-    dao.setJdbcConnection(applicationContext.getBean("jdbcConnection"));-->
+      Setter-based dependency injection.
 
+      Spring looks for:
+        setXmlJdbcConnection(XmlJdbcConnection)
+
+      and injects the bean with id="xmlJdbcConnection"
+    -->
+    <property name="xmlJdbcConnection" ref="xmlJdbcConnection"/>
+
+    <!--
+      Spring looks for:
+        setJdbcConnection(JdbcConnection)
+
+      and injects the bean with id="jdbcConnection"
+    -->
+    <property name="jdbcConnection" ref="jdbcConnection"/>
+
+    <!--
+      Conceptually, Spring performs the following internally:
+
+        XmlPersonDAO dao = new XmlPersonDAO();
+        dao.setXmlJdbcConnection(container.getBean("xmlJdbcConnection"));
+        dao.setJdbcConnection(container.getBean("jdbcConnection"));
+
+      If either referenced bean is missing,
+      Spring fails during context initialization.
+    -->
   </bean>
 
-
-
-  <!--
-      Conceptual equivalent Java code (what Spring does internally):
-
-      XmlJdbcConnection conn = new XmlJdbcConnection();
-      XmlPersonDAO dao = new XmlPersonDAO();
-      dao.setXmlJdbcConnection(conn);
-  -->
-
-  <!-- more bean definitions go here -->
+  <!-- ========================================================= -->
+  <!-- End of configuration                                      -->
+  <!-- ========================================================= -->
 
 </beans>
