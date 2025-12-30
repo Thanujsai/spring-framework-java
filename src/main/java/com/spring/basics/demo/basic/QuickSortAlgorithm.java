@@ -3,9 +3,10 @@ package com.spring.basics.demo.basic;
 import com.spring.basics.demo.basic.SortAlgorithm;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 //earlier only bubble sort had this @Component, now both have it, so now we have 2 beans of same type, to avoid this we can use @Primary on one of them
-@Component
+@Service
 //@Primary
 @Qualifier("quick") // to give a specific name to this bean
 public class QuickSortAlgorithm implements SortAlgorithm {

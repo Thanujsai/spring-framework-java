@@ -1,0 +1,1 @@
+when we say @SpringBootApplication, by default it scans the current package and all sub-packages for components
