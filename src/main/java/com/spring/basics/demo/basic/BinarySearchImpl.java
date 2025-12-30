@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component 
+@Service //since it has business logic in it
 // this is to tell Spring that this class is a Bean
 // Beans are objects that are managed by the Spring framework
 //@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)//new bean whenever requested
