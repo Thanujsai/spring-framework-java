@@ -11,11 +11,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = DemoApplication.class) //using java application context
-public class BinarySearchImplTest {
+@ContextConfiguration(locations = "/applicationContext.xml") //using xml application context
+public class BinarySearchXmlConfigurationTest {
   
   @Autowired
-  BinarySearchImpl binarySearch = new BinarySearchImpl();
+  BinarySearchImpl binarySearch;
   
   @Test
   public void testBinarySearch() {
