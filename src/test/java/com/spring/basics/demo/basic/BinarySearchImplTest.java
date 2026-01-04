@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class BinarySearchImplTest {
   
   @Autowired
-  BinarySearchImpl binarySearch = new BinarySearchImpl();
+  BinarySearchImpl binarySearch;
   
   @Test
   public void testBinarySearch() {
